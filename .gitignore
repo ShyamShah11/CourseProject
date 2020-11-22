@@ -1,1 +1,5 @@
 *.docx
+*.log
+*\negative_backup.txt
+.vscode
+*.exe
