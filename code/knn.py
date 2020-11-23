@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 import sys
 import numpy as np
 import ast
@@ -38,6 +38,7 @@ labels=np.array(labels)
 X_train, X_test, y_train, y_test = train_test_split(feature_vectors, labels, test_size=0.4, random_state=0)
 
 #create the model and test it
-gnb = GaussianNB()
-y_pred = gnb.fit(X_train, y_train).predict(X_test)
+neigh=KNeighborsClassifier(n_neighbors=3)
+neigh.fit(X_train,y_train)
+y_pred = neigh.predict(X_test)
 print("Number of mislabeled points: %d, total points tested: %d"% ((y_test != y_pred).sum(), y_test.shape[0]))

@@ -14,7 +14,7 @@ term_frequency_file=sys.path[0] + "\data\\term_frequency"
 feature_vector_file=sys.path[0]+"\data\\feature_vectors"
 num_positive=0
 num_negative=0
-max_urls=100 #the number of positive and negative urls being used
+max_urls=500 #the number of positive and negative urls being used
 
 """
 the datasets I am using are only links taken from university websites. 
