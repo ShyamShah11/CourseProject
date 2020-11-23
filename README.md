@@ -10,6 +10,6 @@ Everything implementation related is in this [folder](./code). In the data [fold
 
 Note: the scraper uses selenium which requires chromedriver.exe to either be on your PATH, or in the same directory as scraper.py. 
 
-For features, I used tokens from the URL (ie. everything seperated by a non alphabetic characters) first. The three classifiers I experimented with were Naive-Bayes, maximum entropy, and k-nearest neighbors. 
+For features, I used tokens from the URL (ie. everything seperated by a non alphabetic characters) first. After a few tests, I decided to use only the tokens that were also English words. [preparedata.py](./code/preparedata.py) converts the datasets into [feature vectors](./code/data/feature_vectors) which are used for the different algorithms, and it counts the [term frequency](./code/data/term_frequency) over all URLs. The three classifiers I experimented with were [Naive-Bayes](./code/naivebayes.py), maximum entropy, and k-nearest neighbors. 
 
 I used [this paper](https://ingmarweber.de/wp-content/uploads/2013/07/A-Comprehensive-Study-of-Features-and-Algorithms-for-URL-Based-Topic-Classification.pdf) to help come up with some of the ideas used for this project.
