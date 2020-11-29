@@ -1,7 +1,10 @@
 # ExpertSearch: Identifying Faculty Webpage URLs
 
 ## Proposal
-The project proposal is in the file called proposal.pdf.
+The project proposal is in the file called [proposal.pdf](./proposal.pdf).
+
+## Progress Report
+The progress report is in the file called [progress_report.pdf](./progress_report.pdf)
 
 ## Implementation
 I decided that I did not need to use the ExpertSearch code for this but I did use some of the ExperSearch data. I can isolate the task of classifying URLs from the rest of the functionality provided by ExpertSearch so this project will be me working on it seperately (for now).

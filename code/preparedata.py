@@ -24,7 +24,8 @@ which wouldn't be an english word.
 ExpertSearch will probably be crawling university pages to gather URLs
 
 the idea is that if we only look at english words, we can simplify our data by a lot without losing much
-in terms of performance. 
+in terms of performance since every link will have an abbreviation of the university name and
+full names/aliases will likely only occur for one person. 
 I am going to test this out further but am leaning towards using this
 """
 def getVocab(file_name):
