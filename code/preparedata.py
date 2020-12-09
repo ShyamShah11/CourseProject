@@ -12,6 +12,7 @@ positive_file=sys.path[0] + "\data\positive"
 negative_file=sys.path[0] + "\data\\negative"
 term_frequency_file=sys.path[0] + "\data\\term_frequency"
 feature_vector_file=sys.path[0]+"\data\\feature_vectors"
+vocab_file=sys.path[0]+"\data\\vocabulary"
 num_positive=0
 num_negative=0
 max_urls=500 #the number of positive and negative urls being used
@@ -92,6 +93,11 @@ try:
     vocab.remove('')
 except:
     pass
+
+#write the final vocabulary we used
+with open(vocab_file, 'w', encoding="utf-8") as f:
+    for i in vocab:
+        f.write(i + "\n")
 
 #create a term frequency vector
 num_features = len(vocab)

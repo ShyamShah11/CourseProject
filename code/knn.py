@@ -3,6 +3,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import sys
 import numpy as np
 import ast
+import pickle
 
 feature_vectors=[]
 labels=[]
@@ -11,6 +12,7 @@ positive_file=sys.path[0] + "\data\positive"
 negative_file=sys.path[0] + "\data\\negative"
 term_frequency_file=sys.path[0] + "\data\\term_frequency"
 feature_vector_file=sys.path[0]+"\data\\feature_vectors"
+model_file=sys.path[0]+"\data\knn"
 num_positive=0
 num_negative=0
 max_urls=500
@@ -40,5 +42,8 @@ X_train, X_test, y_train, y_test = train_test_split(feature_vectors, labels, tes
 #create the model and test it
 neigh=KNeighborsClassifier(n_neighbors=3)
 neigh.fit(X_train,y_train)
+#save the model
+with open(model_file, 'wb') as f:
+    pickle.dump(classifier, f)
 y_pred = neigh.predict(X_test)
 print("Number of mislabeled points: %d, total points tested: %d"% ((y_test != y_pred).sum(), y_test.shape[0]))
