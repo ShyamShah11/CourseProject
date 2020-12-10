@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB, BernoulliNB, CategoricalNB, MultinomialNB, ComplementNB
 import sys
 import numpy as np
 import ast
@@ -12,7 +12,7 @@ positive_file=sys.path[0] + "\data\positive"
 negative_file=sys.path[0] + "\data\\negative"
 term_frequency_file=sys.path[0] + "\data\\term_frequency"
 feature_vector_file=sys.path[0]+"\data\\feature_vectors"
-model_file=sys.path[0]+"\data\\naivebayes"
+model_file=sys.path[0]+"\models\\naivebayes"
 num_positive=0
 num_negative=0
 max_urls=500
@@ -40,9 +40,21 @@ labels=np.array(labels)
 X_train, X_test, y_train, y_test = train_test_split(feature_vectors, labels, test_size=0.4, random_state=0)
 
 #create the model and test it
-gnb = GaussianNB()
-y_pred = gnb.fit(X_train, y_train).predict(X_test)
+bnb = BernoulliNB(fit_prior=False)
+y_pred = bnb.fit(X_train, y_train).predict(X_test)
 #save the model
 with open(model_file, 'wb') as f:
-    pickle.dump(classifier, f)
+    pickle.dump(bnb, f)
 print("Number of mislabeled points: %d, total points tested: %d"% ((y_test != y_pred).sum(), y_test.shape[0]))
+
+"""
+Gaussian: Number of mislabeled points: 68, total points tested: 400
+Bernoulli: Number of mislabeled points: 53, total points tested: 400 <-
+Complement: Number of mislabeled points: 86, total points tested: 400
+Multinomial: Number of mislabeled points: 206, total points tested: 400
+
+Bernoulli with fit_prior=False: Number of mislabeled points: 51, total points tested: 400
+Tried different priors, based on an empirical estimate but since the dataset is split evenly, the uniform prior worked best
+
+
+"""
