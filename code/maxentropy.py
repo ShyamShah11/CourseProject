@@ -66,10 +66,6 @@ for x in X_test:
     prediction=classifier.classify(x[0])
     predicted_labels.append(prediction)
 
-#TODO(shahshyam): 
-#   update README
-#   train with more data if there's time
-#   create presentation
 print("Number of mislabeled points: %d, total points tested: %d"% (sum([predicted_labels[i]!=x[1] for i,x in enumerate(X_test)]), len(y_test)))
 
 """
