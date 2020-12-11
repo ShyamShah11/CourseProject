@@ -37,23 +37,45 @@ labels=[1]*max_urls+[0]*max_urls
 #read the vocabulary from the file as well
 with open(vocab_file, 'r', encoding="utf-8") as f:
     vocab=f.readlines()
+    vocab=[word.strip() for word in vocab]
+word_vectors=[]
+#need to get our data in a different form. instead of feature vectors, we want a dictionary of all words that exist in a doc
+for fv in feature_vectors:
+    #getting rid of cs because it skewed the performance while testing. maybe bc it either shows up on every university's url or none of them
+    words=[vocab[i] for i, x in enumerate(fv) if x > 0 and vocab[i]!="cs"]
+    word_vectors.append(words)
 
-#convert data into dictionaries for the classifier
-training_dicts = [dict(zip(vocab, vector)) for vector in feature_vectors]
-toks = [(training_dict, labels[i]) for i, training_dict in enumerate(training_dicts)]
+#taken from http://ataspinar.com/2016/05/07/regression-logistic-regression-and-maximum-entropy-part-2-code-examples/
+def list_to_dict(words_list):
+    return dict([(word, 1) for word in words_list])
 
-#create the training and test data
-X_train, X_test, y_train, y_test = train_test_split(toks, labels, test_size=0.4, random_state=0)
+#create new data with all data points that still exist
+training_set=[(list_to_dict(element), labels[i]) for i, element in enumerate(word_vectors) if len(element)>0]
+labels=[element[1] for element in training_set]
 
-#create the model and test it
-predicted_labels=[]
-classifier=nltk.MaxentClassifier.train(X_train, 'GIS', trace = 0, max_iter = 100)
-
+#split data and train model
+X_train, X_test, y_train, y_test = train_test_split(training_set, labels, test_size=0.4, random_state=0)
+classifier = nltk.MaxentClassifier.train(X_train, "GIS", max_iter=100)
 #save the model
 with open(model_file, 'wb') as f:
     pickle.dump(classifier, f)
 
-for point in X_test:
-    predicted_labels.append(classifier.classify(point[0]))
+#get predictions for all the test data
+predicted_labels=[]
+for x in X_test:
+    prediction=classifier.classify(x[0])
+    predicted_labels.append(prediction)
 
-print("Number of mislabeled points: %d, total points tested: %d"% (sum([predicted_labels[i]!=y_test[i] for i in range(len(y_test))]), len(y_test)))
+#TODO(shahshyam): 
+#   update README
+#   train with more data if there's time
+#   create presentation
+print("Number of mislabeled points: %d, total points tested: %d"% (sum([predicted_labels[i]!=x[1] for i,x in enumerate(X_test)]), len(y_test)))
+
+"""
+with GIS algorithm and 100 iterations, mislabelled 32/343 <-
+with GIS algorithm and 500 iterations, mislabelled 34/343
+
+with IIS algorithm and 100 iterations, mislabelled 35/343
+with IIS algorithm and 500 iterations, mislabelled 33/343
+"""

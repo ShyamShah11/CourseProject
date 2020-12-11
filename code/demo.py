@@ -27,6 +27,10 @@ def getClassifier(model_name):
     print("Done")
     return classifier
 
+#taken from http://ataspinar.com/2016/05/07/regression-logistic-regression-and-maximum-entropy-part-2-code-examples/
+def list_to_dict(words_list):
+    return dict([(word, 1) for word in words_list])
+
 #first load in the vocabulary and term frequency
 print("Loading vocabulary...", end=" ")
 f = open(vocab_filename, "r")
@@ -49,16 +53,25 @@ for token in tokens:
     feature_vectors.append([token.count(word)/term_frequency[index] for index,word in enumerate(vocab)])
 print("Done")
 
-maxent_classifier=getClassifier(maxent_filename)
 #make predictions using the maxent classifier
-for i, fv in enumerate(feature_vectors):
-    print ("%s was labelled as %s"% (urls[i], "positive" if (maxent_classifier.classify(dict(zip(vocab,fv)))==1) else "negative"))
+#we first need to get the feature vector into the dictionary form used for this model
+word_vectors=[]
+for fv in feature_vectors:
+    #getting rid of cs we did that for this model
+    words=[vocab[i] for i, x in enumerate(fv) if x > 0 and vocab[i]!="cs"]
+    word_vectors.append(words)
+maxent_vectors=[list_to_dict(element) for i, element in enumerate(word_vectors) if len(element)>0]
+maxent_classifier=getClassifier(maxent_filename)
+for i, fv in enumerate(maxent_vectors):
+    print ("%s was labelled as %s"% (urls[i], "positive" if (maxent_classifier.classify(fv)==1) else "negative"))
     #1 is faculty, 0 is not faculty
 
+#make predictions using the knn classifier
 knn_classifier=getClassifier(knn_filename)
 for i, fv in enumerate(feature_vectors):
     print ("%s was labelled as %s"% (urls[i], "positive" if (knn_classifier.predict(np.array(fv).reshape(1,-1))==1) else "negative"))
 
+#make predictions using the naive bayes classifier
 naivebayes_classifier=getClassifier(naivebayes_filename)
 for i, fv in enumerate(feature_vectors):
     print ("%s was labelled as %s"% (urls[i], "positive" if (naivebayes_classifier.predict(np.array(fv).reshape(1,-1))==1) else "negative"))
