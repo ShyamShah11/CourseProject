@@ -4,6 +4,19 @@ import numpy as np
 import ast
 import enchant
 
+max_urls=500
+if len(sys.argv) >= 2: #a different number of urls to use was passed
+    try:
+        max_urls=int(sys.argv[1])
+        if max_urls<500:
+            print ("Please use more than 500 samples")
+            exit()
+    except ValueError:
+        print ("Please pass a valid number of URLs")
+        exit()
+
+print ("Preparing a total of %d URLs"% (max_urls*2))
+
 vocab=[]
 feature_vectors=[]
 labels=[]
@@ -15,7 +28,6 @@ feature_vector_file=sys.path[0]+"\data\\feature_vectors"
 vocab_file=sys.path[0]+"\data\\vocabulary"
 num_positive=0
 num_negative=0
-max_urls=500 #the number of positive and negative urls being used
 
 """
 the datasets I am using are only links taken from university websites. 
@@ -66,7 +78,7 @@ def getFeatureVectors(file_name, label):
             w.write(str(feature_vector))
             w.write("\n")
             if (i % 50 == 0):
-                print ("generated feature vector for %d urls"% i)
+                print ("generated feature vector for %d urls"% i, flush=True)
         f.close()
     w.close()
 
@@ -123,6 +135,7 @@ with open(term_frequency_file, 'r', encoding="utf-8") as f:
 #create the feature vectors 
 
 #run this once to generate the feature vectors and save it since it takes a while
+open(feature_vector_file, 'w').close()
 getFeatureVectors(positive_file, 1)
 getFeatureVectors(negative_file, 0)
 feature_vectors=[]

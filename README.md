@@ -7,7 +7,7 @@ The project proposal is in the file called [proposal.pdf](./proposal.pdf).
 The progress report is in the file called [progress_report.pdf](./progress_report.pdf)
 
 ## Demonstration
-Video/instructions coming soon
+Check the README in the [code folder](./code) for instructions. 
 
 ## Implementation
 I decided that I did not need to use the ExpertSearch code for this but I did use some of the ExperSearch data. I can isolate the task of classifying URLs from the rest of the functionality provided by ExpertSearch so this project will be me working on it seperately (for now).
@@ -23,7 +23,7 @@ Note: the scraper uses selenium which requires chromedriver.exe to either be on 
 For features, I used tokens from the URL (ie. everything seperated by a non alphabetic characters) first. After a few tests, I decided to use only the tokens that were also English words since the tokens that aren't English words are usually people's names or university name acronyms which I felt did not add enough value for the number of features they added. [preparedata.py](./code/preparedata.py) converts the datasets into [feature vectors](./code/data/feature_vectors) which are used for the different algorithms, and it counts the [term frequency](./code/data/term_frequency) over all URLs. I have only uploaded feature vectors for a small subset of my data to avoid file size constraints.
 
 ## Classifiers
-The three classifiers I experimented with were [Naive-Bayes](./code/naivebayes.py), [maximum entropy](./code/maxentropy.py), and [k-nearest neighbors](./code/knn.py). 
+The three classifiers I experimented with were [Naive-Bayes](./code/naivebayes.py), [maximum entropy](./code/maxentropy.py), and [k-nearest neighbors](./code/knn.py). I also tuned my models based on a small sample size of data (1000 total URLs) because of time and hardware constraints. 
 
 ### Naive Bayes
 I experimented with 4 kinds of Naive Bayes classifiers: Gaussian, Bernoulli, complement, and multinomial. Over 400 test points, these were the results (accuracy is the number of correctly labelled URLs).

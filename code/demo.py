@@ -5,12 +5,26 @@ import nltk
 import numpy as np
 
 #check that you passed something to classify
-try:
-    urls = sys.argv[1].split(",")
-except IndexError:
-    print ("Please pass comma delimited URLs to classify")
-    exit()
-print (urls)
+regex=r"^[\w,\s-]+\.txt$"
+urls=[]
+if (re.findall(regex,sys.argv[1])): #check if a txt file was passed
+    try:
+        with open(sys.argv[1],'r', encoding="utf-8") as f: #get rid of any whitespaces and empty lines
+            for line in f.readlines():
+                url=line.strip()
+                if len(url) > 0:
+                    urls.append(url)
+    except FileNotFoundError:
+        print ("That file does not exist")
+        exit()
+else:
+    # assume comma delimited urls were passed
+    try:
+        for url in sys.argv[1].split(","):
+            urls.append(url.strip())
+    except IndexError:
+        print ("Please pass comma delimited URLs or a .txt file to classify")
+        exit()
 
 maxent_filename = sys.path[0]+"\models\maxentropy"
 knn_filename = sys.path[0]+"\models\knn"

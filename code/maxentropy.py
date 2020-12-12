@@ -5,6 +5,19 @@ import sys
 import pickle
 from sklearn.model_selection import train_test_split
 
+max_urls=500
+if len(sys.argv) >= 2: #a different number of urls to use was passed
+    try:
+        max_urls=int(sys.argv[1])
+        if max_urls<500:
+            print ("Please use more than 500 samples")
+            exit()
+    except ValueError:
+        print ("Please pass a valid number of URLs")
+        exit()
+
+print ("Using a total of %d URLs to train"% (max_urls*2))
+
 feature_vectors=[]
 labels=[]
 term_frequency=[]
@@ -17,7 +30,6 @@ vocab_file=sys.path[0]+"\data\\vocabulary"
 model_file=sys.path[0]+"\models\maxentropy"
 num_positive=0
 num_negative=0
-max_urls=500
 
 #create a term frequency vector
 #if we have already written to the file, just need to read it

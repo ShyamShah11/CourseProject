@@ -1,0 +1,10 @@
+beautifulsoup4==4.9.1 
+bs4==0.0.1 
+numpy==1.18.1 
+pyenchant==3.1.1 
+scikit-image==0.16.2 
+selenium==3.141.0
+sklearn==0.0 
+urllib3==1.25.8 
+pickle-mixin==1.0.2
+regex==2020.11.3
