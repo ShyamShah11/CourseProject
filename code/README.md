@@ -1,5 +1,5 @@
 # Instructions
-Video demo available [here](./demo.mp4).
+Video demo available [here](https://drive.google.com/file/d/1GHTCM-BtEnMNwwzLdWTJBcKEtZyAQ-xz/view?usp=sharing). it is also included as a part of this repsitory as demo.mp4.
 
 ## Setup
 This was developed and tested using Python 3.7.6. After cloning this repository, download all of the external packages used in the code by running `pip install -r requirements.txt`. Note that I use some packages that are downloaded by default such as sys and ast too. All of the files ran are in this folder (code) so make sure to navigate to it before running any of the lines below.
